@@ -1,3 +1,5 @@
+import { env } from "deno";
+
 export const vscodeSettings = `{
   "editor.tabSize": 2,
   "typescript.tsdk": "../node_modules/typescript/lib"
@@ -69,3 +71,17 @@ export const modtsPath = "mod.ts";
 export const packagejson = `{}
 `;
 export const packagejsonPath = "package.json";
+
+export const tsconfigjson = `{
+  "compilerOptions": {
+    "target": "esnext",
+    "baseUrl": ".",
+    "paths": {
+      "http://*": ["${env()["HOME"]}/.deno/deps/http/*"],
+      "https://*": ["${env()["HOME"]}/.deno/deps/https/*"]
+    },
+    "plugins": [{ "name": "deno_ls_plugin" }]
+  }
+}
+`;
+export const tsconfigjsonPath = "tsconfig.json";

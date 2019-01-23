@@ -17,6 +17,7 @@ setTimeout(() => {
       "http://localhost:8888/mod.ts",
       "--allow-write",
       "--allow-run",
+      "--allow-env",
       "--reload",
       "--recompile",
       projectName

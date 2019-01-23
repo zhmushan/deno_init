@@ -9,7 +9,7 @@ install:
 
 script:
   - deno --version
-  - deno test.ts --allow-write --allow-run --reload --recompile
+  - deno test.ts --allow-write --allow-run --allow-env --reload --recompile
 
 cache:
   directories:

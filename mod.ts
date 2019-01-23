@@ -56,6 +56,16 @@ function init(name: string) {
       createLog(tmpl.modtsPath, red);
     });
   writeFile(
+    `${name}/${tmpl.tsconfigjsonPath}`,
+    new TextEncoder().encode(tmpl.tsconfigjson)
+  )
+    .then(() => {
+      createLog(tmpl.tsconfigjsonPath);
+    })
+    .catch(() => {
+      createLog(tmpl.tsconfigjsonPath, red);
+    });
+  writeFile(
     `${name}/${tmpl.packagejsonPath}`,
     new TextEncoder().encode(tmpl.packagejson)
   )

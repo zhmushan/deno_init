@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "baseUrl": ".",
+    "paths": {
+      "http://*": ["/home/zhang/.deno/deps/http/*"],
+      "https://*": ["/home/zhang/.deno/deps/https/*"]
+    },
+    "plugins": [{ "name": "deno_ls_plugin" }]
+  }
+}

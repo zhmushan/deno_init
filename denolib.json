@@ -1,0 +1,8 @@
+{
+  "name": "deno_init",
+  "author": "木杉",
+  "license": "MIT",
+  "repository": "https://github.com/zhmushan/deno_init",
+  "keywords": [],
+  "entry": "mod.ts"
+}

@@ -1,0 +1,16 @@
+language:
+  - python
+  - node_js
+
+install:
+  - curl -L https://deno.land/x/install/install.py | python - v0.2.8
+  - export PATH="$HOME/.deno/bin:$PATH"
+  - npm i -g http-server
+
+script:
+  - deno --version
+  - deno test.ts --allow-write --allow-run --reload --recompile
+
+cache:
+  directories:
+    - '$HOME/.deno'

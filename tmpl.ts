@@ -66,11 +66,6 @@ export const modts = `console.log("Hello, World!");
 `;
 export const modtsPath = "mod.ts";
 
-export const packagejson = `{
-  "devDependencies": {
-    "deno_ls_plugin": "^0.1.0",
-    "typescript": "^3.2.4"
-  }
-}
+export const packagejson = `{}
 `;
 export const packagejsonPath = "package.json";

@@ -62,7 +62,7 @@ function init(name: string) {
     .then(() => {
       createLog(tmpl.packagejsonPath);
       run({
-        args: ["npm", "i"],
+        args: ["npm", "i", "typescript", "deno_ls_plugin", "--save-dev"],
         cwd: `${cwd()}/${name}`
       })
         .status()

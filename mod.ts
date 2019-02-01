@@ -28,6 +28,21 @@ function init(name: string) {
         createLog(tmpl.vscodeSettingsPath, red);
       });
   });
+  mkdir(`${name}/types`).then(() => {
+    const task = run({ args: ["deno", "--types"], stdout: "piped" });
+    task.output().then(async out => {
+      writeFile(`${name}/types/deno.d.ts`, out)
+        .then(() => {
+          createLog(`${name}/types/deno.d.ts`);
+        })
+        .catch(() => {
+          createLog(`${name}/types/deno.d.ts`, red);
+        })
+        .finally(() => {
+          task.close();
+        });
+    });
+  });
   writeFile(
     `${name}/${tmpl.gitignorePath}`,
     new TextEncoder().encode(tmpl.gitignore)

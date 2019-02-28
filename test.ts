@@ -1,4 +1,3 @@
-import { run, readFileSync, exit, remove } from "deno";
 import {
   assertEqual,
   test,
@@ -10,7 +9,7 @@ const projectName = "test_project";
 test({
   name: "deno init",
   async fn() {
-    const status = await run({
+    const status = await Deno.run({
       args: [
         "deno",
         "mod.ts",
@@ -25,12 +24,12 @@ test({
 
     if (status.success) {
       assertEqual(
-        new TextDecoder().decode(readFileSync(`${projectName}/mod.ts`)),
+        new TextDecoder().decode(Deno.readFileSync(`${projectName}/mod.ts`)),
         tmpl.modts
       );
     }
-    await remove(projectName, { recursive: true });
-    exit(status.code);
+    await Deno.remove(projectName, { recursive: true });
+    Deno.exit(status.code);
   }
 });
 

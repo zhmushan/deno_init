@@ -1,23 +1,22 @@
-import { mkdirSync, args, cwd, run, mkdir, writeFile, exit } from "deno";
 import { green, red } from "https://deno.land/x/colors/mod.ts";
 import * as tmpl from "./tmpl.ts";
 
-const projectName = args[1];
+const projectName = Deno.args[1];
 
 function createLog(name: string, colors = green) {
   console.log(colors(`CREATE ${name}`));
 }
 
 try {
-  mkdirSync(projectName);
+  Deno.mkdirSync(projectName);
   init(projectName);
 } catch (err) {
   console.error(err);
 }
 
 function init(name: string) {
-  mkdir(`${name}/.vscode`).then(() => {
-    writeFile(
+  Deno.mkdir(`${name}/.vscode`).then(() => {
+    Deno.writeFile(
       `${name}/${tmpl.vscodeSettingsPath}`,
       new TextEncoder().encode(tmpl.vscodeSettings)
     )
@@ -28,22 +27,20 @@ function init(name: string) {
         createLog(tmpl.vscodeSettingsPath, red);
       });
   });
-  mkdir(`${name}/types`).then(() => {
-    const task = run({ args: ["deno", "--types"], stdout: "piped" });
-    task.output().then(async out => {
-      writeFile(`${name}/types/deno.d.ts`, out)
-        .then(() => {
-          createLog(`${name}/types/deno.d.ts`);
-        })
-        .catch(() => {
-          createLog(`${name}/types/deno.d.ts`, red);
-        })
-        .finally(() => {
-          task.close();
-        });
-    });
+  const task = Deno.run({ args: ["deno", "--types"], stdout: "piped" });
+  task.output().then(async out => {
+    Deno.writeFile(`${name}/deno.d.ts`, out)
+      .then(() => {
+        createLog(`${name}/deno.d.ts`);
+      })
+      .catch(() => {
+        createLog(`${name}/deno.d.ts`, red);
+      })
+      .finally(() => {
+        task.close();
+      });
   });
-  writeFile(
+  Deno.writeFile(
     `${name}/${tmpl.gitignorePath}`,
     new TextEncoder().encode(tmpl.gitignore)
   )
@@ -53,7 +50,7 @@ function init(name: string) {
     .catch(() => {
       createLog(tmpl.gitignorePath, red);
     });
-  writeFile(
+  Deno.writeFile(
     `${name}/${tmpl.denolibjsonPath}`,
     new TextEncoder().encode(tmpl.denolibjson)
   )
@@ -63,14 +60,17 @@ function init(name: string) {
     .catch(() => {
       createLog(tmpl.denolibjsonPath, red);
     });
-  writeFile(`${name}/${tmpl.modtsPath}`, new TextEncoder().encode(tmpl.modts))
+  Deno.writeFile(
+    `${name}/${tmpl.modtsPath}`,
+    new TextEncoder().encode(tmpl.modts)
+  )
     .then(() => {
       createLog(tmpl.modtsPath);
     })
     .catch(() => {
       createLog(tmpl.modtsPath, red);
     });
-  writeFile(
+  Deno.writeFile(
     `${name}/${tmpl.tsconfigjsonPath}`,
     new TextEncoder().encode(tmpl.tsconfigjson)
   )
@@ -80,19 +80,19 @@ function init(name: string) {
     .catch(() => {
       createLog(tmpl.tsconfigjsonPath, red);
     });
-  writeFile(
+  Deno.writeFile(
     `${name}/${tmpl.packagejsonPath}`,
     new TextEncoder().encode(tmpl.packagejson)
   )
     .then(() => {
       createLog(tmpl.packagejsonPath);
-      run({
+      Deno.run({
         args: ["npm", "i", "typescript", "deno_ls_plugin", "--save-dev"],
-        cwd: `${cwd()}/${name}`
+        cwd: `${Deno.cwd()}/${name}`
       })
         .status()
         .then(status => {
-          exit(status.code);
+          Deno.exit(status.code);
         });
     })
     .catch(() => {
